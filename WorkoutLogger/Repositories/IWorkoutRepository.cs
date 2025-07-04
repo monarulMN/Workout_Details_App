@@ -2,7 +2,7 @@
 
 namespace WorkoutLogger.Repositories;
 
-public interface IWorkoutRepositories
+public interface IWorkoutRepository
 {
     Task<List<WorkoutSession>> GetAllSessionsAsync();
     Task<WorkoutSession> GetSessionByIdasync(int id);

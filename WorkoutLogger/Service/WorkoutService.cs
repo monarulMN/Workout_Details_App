@@ -1,22 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WorkoutLogger.Data;
 using WorkoutLogger.Models;
+using WorkoutLogger.Repositories;
 
-namespace WorkoutLogger.Service
+namespace WorkoutLogger.Service;
+
+public class WorkoutService :IWorkoutService
 {
-    public class WorkoutService
-    {
-        private readonly ApplicationDbContext _dbContext;
+    private readonly IWorkoutRepository _repo;
 
-        public WorkoutService(ApplicationDbContext dbContext) => _dbContext = dbContext;
+    public WorkoutService(IWorkoutRepository repo) => _repo = repo;
 
-        public async Task<List<WorkoutSession>> GetAllSessionsAsync()
-            => await _dbContext.WorkoutSessions.Include(s => s.Sets).ThenInclude(s => s.Exercise).ToListAsync();
-
-        public async Task AddSessionAsync(WorkoutSession session)
-        {
-            _dbContext.WorkoutSessions.Add(session);
-            await _dbContext.SaveChangesAsync();
-        }
-    }
+    public Task<List<WorkoutSession>> GetAllSessionsAsync() => _repo.GetAllSessionsAsync();
+    public Task<WorkoutSession?> GetSessionByIdAsync(int id) => _repo.GetSessionByIdAsync(id);
+    public Task AddSessionAsync(WorkoutSession session) => _repo.AddSessionAsync(session);
+    public Task DeleteSessionAsync(int id) => _repo.DeleteSessionAsync(id);
 }
