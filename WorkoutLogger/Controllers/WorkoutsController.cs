@@ -16,13 +16,24 @@ public class WorkoutsController : Controller
         return View(sessions);
     }
 
-    public IActionResult Create() => View();
+    public async Task<IActionResult> Create()
+    {
+        ViewBag.Exercises = await _service.GetAllExercisesAsync();
+        return View();
+    }
 
     [HttpPost]
-    public async Task<IActionResult> Create(WorkoutSession session)
+    public async Task<IActionResult> Create(WorkoutSession session, List<WorkoutSet> sets)
     {
-        if (!ModelState.IsValid) return View(session);
+        if (!ModelState.IsValid)
+        {
+            ViewBag.Exercises = await _service.GetAllExercisesAsync();
+            return View(session);
+        }
+
+        session.Sets = sets;
         await _service.AddSessionAsync(session);
+
         return RedirectToAction(nameof(Index));
     }
 
@@ -30,6 +41,7 @@ public class WorkoutsController : Controller
     {
         var session = await _service.GetSessionByIdAsync(id);
         if (session == null) return NotFound();
+
         return View(session);
     }
 
@@ -41,13 +53,13 @@ public class WorkoutsController : Controller
     }
 
 
-    // ✅ Chart view
+
     public IActionResult Charts()
     {
         return View();
     }
 
-    // ✅ Create new exercise (simple)
+    
     public IActionResult AddExercise() => View();
 
     [HttpPost]
