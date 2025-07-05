@@ -39,4 +39,22 @@ public class WorkoutsController : Controller
         await _service.DeleteSessionAsync(id);
         return RedirectToAction(nameof(Index));
     }
+
+
+    // ✅ Chart view
+    public IActionResult Charts()
+    {
+        return View();
+    }
+
+    // ✅ Create new exercise (simple)
+    public IActionResult AddExercise() => View();
+
+    [HttpPost]
+    public async Task<IActionResult> AddExercise(Exercise exercise)
+    {
+        if (!ModelState.IsValid) return View(exercise);
+        await _service.AddExerciseAsync(exercise);
+        return RedirectToAction(nameof(Create));
+    }
 }

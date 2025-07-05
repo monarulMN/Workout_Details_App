@@ -1,8 +1,23 @@
 ﻿@model List<WorkoutLogger.Models.WorkoutSession>
+
+@{
+    ViewData["Title"] = "Workout Sessions";
+}
+
 <h1>Workout Sessions</h1>
-<a asp-action="Create">Add New</a>
-<table>
-    <thead><tr><th>Date</th><th>Sets</th><th></th></tr></thead>
+
+<a asp-action="Create" class="btn btn-primary mb-3">Add New Session</a>
+<a asp-action="AddExercise" class="btn btn-secondary mb-3">Add New Exercise</a>
+<a asp-action="Charts" class="btn btn-info mb-3">View Progress Chart</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Sets</th>
+            <th></th>
+        </tr>
+    </thead>
     <tbody>
         @foreach (var session in Model)
         {
@@ -10,9 +25,9 @@
                 <td>@session.Date.ToShortDateString()</td>
                 <td>@session.Sets.Count</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@session.Id">Details</a> |
+                    <a asp-action="Details" asp-route-id="@session.Id" class="btn btn-sm btn-info">Details</a>
                     <form asp-action="Delete" asp-route-id="@session.Id" method="post" style="display:inline;">
-                        <button type="submit">Delete</button>
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                     </form>
                 </td>
             </tr>

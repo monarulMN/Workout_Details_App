@@ -5,7 +5,10 @@ namespace WorkoutLogger.Repositories;
 public interface IWorkoutRepository
 {
     Task<List<WorkoutSession>> GetAllSessionsAsync();
-    Task<WorkoutSession> GetSessionByIdasync(int id);
+    Task<WorkoutSession?> GetSessionByIdAsync(int id);
     Task AddSessionAsync(WorkoutSession session);
     Task DeleteSessionAsync(int id);
+
+    Task<List<Exercise>> GetAllExercisesAsync();
+    Task AddExerciseAsync(Exercise exercise);
 }

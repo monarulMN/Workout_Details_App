@@ -1,11 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using WorkoutLogger.Data;
+using WorkoutLogger.Repositories;
+using WorkoutLogger.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 //Add EF Core SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IWorkoutRepository, WorkoutRepository>();
+builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

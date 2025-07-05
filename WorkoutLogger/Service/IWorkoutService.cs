@@ -8,4 +8,7 @@ public interface IWorkoutService
     Task<WorkoutSession?> GetSessionByIdAsync(int id);
     Task AddSessionAsync(WorkoutSession session);
     Task DeleteSessionAsync(int id);
+
+    Task<List<Exercise>> GetAllExercisesAsync();
+    Task AddExerciseAsync(Exercise exercise);
 }
